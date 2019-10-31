@@ -92,6 +92,7 @@ func (s *SingleRuntime) readFromSocket(command string) (string, error) {
 	buf := make([]byte, bufferSize)
 	var data strings.Builder
 	for {
+		api.SetReadDeadline(time.Now().Add(1 * time.Second))
 		n, err := api.Read(buf[:])
 		if err != nil {
 			break
