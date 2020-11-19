@@ -22,3 +22,5 @@ require (
 	golang.org/x/net v0.0.0-20200425230154-ff2c4b7c35a0 // indirect
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
 )
+
+replace github.com/haproxytech/models/v2 v2.1.0 => github.com/gaulzhw/models/v2 v2.1.0-1

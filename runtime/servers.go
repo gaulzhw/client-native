@@ -197,5 +197,6 @@ func parseRuntimeServer(line string) *models.RuntimeServer {
 		ID:               fields[2],
 		AdminState:       admState,
 		OperationalState: opState,
+		SrvRecord:        fields[19],
 	}
 }

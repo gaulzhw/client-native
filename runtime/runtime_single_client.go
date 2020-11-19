@@ -70,7 +70,7 @@ func (s *SingleRuntime) handleIncommingJobs() {
 }
 
 func (s *SingleRuntime) readFromSocket(command string) (string, error) {
-	api, err := net.Dial("unix", s.socketPath)
+	api, err := net.Dial(getNetworkForSocketPath(s.socketPath), s.socketPath)
 	if err != nil {
 		return "", err
 	}
@@ -107,7 +107,7 @@ func (s *SingleRuntime) readFromSocket(command string) (string, error) {
 }
 
 func (s *SingleRuntime) readFromSocketClean(command string) (string, error) {
-	api, err := net.Dial("unix", s.socketPath)
+	api, err := net.Dial(getNetworkForSocketPath(s.socketPath), s.socketPath)
 	if err != nil {
 		return "", err
 	}
@@ -128,6 +128,14 @@ func (s *SingleRuntime) readFromSocketClean(command string) (string, error) {
 		data.Write(buf[0:n])
 	}
 	return data.String(), nil
+}
+
+func getNetworkForSocketPath(socketPath string) string {
+	_, err := net.ResolveTCPAddr("", socketPath)
+	if err != nil {
+		return "unix"
+	}
+	return "tcp"
 }
 
 //ExecuteRaw executes command on runtime API and returns raw result
