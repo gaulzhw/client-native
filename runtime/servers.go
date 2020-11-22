@@ -173,13 +173,15 @@ func parseRuntimeServer(line string) *models.RuntimeServer {
 	var admState string
 	state, err := strconv.ParseInt(fields[6], 10, 64)
 	if err == nil {
+		// http://cbonte.github.io/haproxy-dconv/2.3/management.html#9.3-show%20servers%20state
+		// only 0x01, 0x08 is explicitly state
 		switch {
-		case state == 0:
-			admState = "ready"
-		case state&0x08 != 0, state&0x10 != 0:
+		case state&0x08 != 0:
 			admState = "drain"
-		case state&0x01 != 0, state&0x02 != 0, state&0x04 != 0, state&0x20 != 0, state&0x40 != 0:
+		case state&0x01 != 0:
 			admState = "maint"
+		default:
+			admState = "ready"
 		}
 	}
 
