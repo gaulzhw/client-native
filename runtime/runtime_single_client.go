@@ -78,6 +78,10 @@ func (s *SingleRuntime) readFromSocket(command string) (string, error) {
 	if s.worker > 0 {
 		fullCommand = fmt.Sprintf("@%v set severity-output number;@%v %s;quit\n", s.worker, s.worker, command)
 	}
+	// just use for master sock
+	if s.worker == -1 {
+		fullCommand = fmt.Sprintf("%s;quit\n", command)
+	}
 	_, err = api.Write([]byte(fullCommand))
 	if err != nil {
 		return "", err

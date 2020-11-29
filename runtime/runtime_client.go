@@ -137,6 +137,23 @@ func (c *Client) InitWithMasterSocket(masterSocketPath string, nbproc int) error
 	return nil
 }
 
+func (c *Client) InitMasterSocket(masterSocketPath string) error {
+	nbproc := 1
+	if masterSocketPath == "" {
+		return fmt.Errorf("Master socket not configured")
+	}
+	c.runtimes = make([]SingleRuntime, nbproc)
+	for i := 1; i <= nbproc; i++ {
+		runtime := SingleRuntime{}
+		err := runtime.Init(masterSocketPath, -1, i)
+		if err != nil {
+			return err
+		}
+		c.runtimes[i-1] = runtime
+	}
+	return nil
+}
+
 //GetStats returns stats from the socket
 func (c *Client) GetStats() models.NativeStats {
 	result := make(models.NativeStats, len(c.runtimes))
