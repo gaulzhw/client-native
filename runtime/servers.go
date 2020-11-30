@@ -25,12 +25,10 @@ import (
 
 //SetServerAddr set ip [port] for server
 func (s *SingleRuntime) SetServerAddr(backend, server string, ip string, port int) error {
-	var cmd string
-	if port > 0 {
-		cmd = fmt.Sprintf("set server %s/%s addr %s port %d", backend, server, ip, port)
-	} else {
-		cmd = fmt.Sprintf("set server %s/%s addr %s", backend, server, ip)
+	if port < 0 {
+		return fmt.Errorf("bad request for port")
 	}
+	cmd := fmt.Sprintf("set server %s/%s addr %s port %d", backend, server, ip, port)
 	return s.Execute(cmd)
 }
 
