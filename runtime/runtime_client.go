@@ -298,8 +298,12 @@ func (c *Client) SetServerAgentSend(backend, server string, send string) error {
 func (c *Client) GetServersState(backend string) (models.RuntimeServers, error) {
 	var prevRs models.RuntimeServers
 	var rs models.RuntimeServers
+	var err error
 	for _, runtime := range c.runtimes {
-		rs, _ = runtime.GetServersState(backend)
+		rs, err = runtime.GetServersState(backend)
+		if err != nil {
+			return nil, err
+		}
 		if prevRs == nil {
 			continue
 		}
