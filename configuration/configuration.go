@@ -1155,9 +1155,9 @@ func setFieldValue(section parser.Section, sectionName string, fieldName string,
 				ps = append(ps, param)
 			}
 
-			if ds.Ssl {
+			if ds.Nossl {
 				param := &params.ServerOptionWord{
-					Name: "no-ssl",
+					Name: "nossl",
 				}
 				ps = append(ps, param)
 			}
