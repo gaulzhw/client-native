@@ -622,7 +622,7 @@ func SerializeHTTPRequestRule(f models.HTTPRequestRule) (rule types.HTTPAction, 
 		}
 	case "deny":
 		rule = &actions.Deny{
-			DenyStatus: strconv.FormatInt(f.DenyStatus, 10),
+			//DenyStatus: strconv.FormatInt(f.DenyStatus, 10),
 			Cond:       f.Cond,
 			CondTest:   f.CondTest,
 		}
