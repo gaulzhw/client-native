@@ -525,6 +525,10 @@ func parseField(section parser.Section, sectionName string, fieldName string, p 
 					}
 				case *params.ServerOptionValue:
 					switch v.Name {
+					case "alpn":
+						dServer.Alpn = v.Value
+					case "proto":
+						dServer.Proto = v.Value
 					case "sni":
 						dServer.Sni = v.Value
 					case "check-sni":
@@ -1147,6 +1151,22 @@ func setFieldValue(section parser.Section, sectionName string, fieldName string,
 				param := &params.ServerOptionValue{
 					Name:  "fall",
 					Value: strconv.FormatInt(*ds.Fall, 10),
+				}
+				ps = append(ps, param)
+			}
+
+			if ds.Proto != "" {
+				param := &params.ServerOptionValue{
+					Name:  "proto",
+					Value: ds.Proto,
+				}
+				ps = append(ps, param)
+			}
+
+			if ds.Alpn != "" {
+				param := &params.ServerOptionValue{
+					Name:  "alpn",
+					Value: ds.Alpn,
 				}
 				ps = append(ps, param)
 			}
